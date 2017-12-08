@@ -3,9 +3,6 @@ title: Everlywell Enterprise API Reference
 
 language_tabs:
   - http
-  
-includes:
-  - errors
 
 search: true
 ---
