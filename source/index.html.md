@@ -9,7 +9,7 @@ search: true
 
 # Introduction
 
-Documentation for EverlyWell's Enterprise APIs. 
+Documentation for EverlyWell's Enterprise APIs.
 
 # Orders API
 
@@ -34,7 +34,7 @@ Authorization: <YOUR_AUTH_HERE>
 ### Query Parameters
 
 Parameter | Required | Type | Description
---------- | ------- | ----------- | ------- 
+--------- | ------- | ----------- | -------
 amount | true | Double | Total order price
 
 > Response Definition
@@ -68,7 +68,7 @@ Authorization: <YOUR_AUTH_HERE>
 ### Query Parameters
 
 Parameter | Required | Type | Description
---------- | ------- | ----------- | ------- 
+--------- | ------- | ----------- | -------
 id | true | int | Unique identifier for the Order
 
 
@@ -127,7 +127,7 @@ Authorization: <YOUR_AUTH_HERE>
 ### User
 
 Parameter | Required | Type | Description
---------- | ------- | ----------- | ------- 
+--------- | ------- | ----------- | -------
 email | true | string | Email for the User associated with the Kit
 first_name | true | string | First name of the User associated with the Kit
 last_name | true | string | Last name of the User associated with the Kit
@@ -138,7 +138,7 @@ gender | true | string | Gender of the User associated with the Kit
 ### Address
 
 Parameter | Required | Type | Description
---------- | ------- | ----------- | ------- 
+--------- | ------- | ----------- | -------
 street1 | true | string | Street address associated with the User
 street2 | False | string | Additional street address information associated with the User
 city | true | string | City address associated with the User
@@ -182,7 +182,7 @@ Authorization: <YOUR_AUTH_HERE>
 ### Query Parameters
 
 Parameter | Required | Type | Description
---------- | ------- | ----------- | ------- 
+--------- | ------- | ----------- | -------
 id | true | int | The result's ID
 
 
@@ -200,3 +200,56 @@ Content-Type: application/json
 }
 ```
 
+# Auth API
+
+## Issue Token
+
+Authorize and Issue Token
+
+```http
+GET https://auth.everlywell.com/api/v1/token HTTP/1.1
+Content-Type: application/json; charset=utf-8
+Authorization: <YOUR_AUTH_HERE>
+```
+
+> Response Definition
+
+```http
+HTTP/1.1 200 OK
+Content-Type: application/json
+```
+
+```json
+{
+    "token": "encryptedPayload"
+}
+```
+
+## Validate Token
+
+Validate Token is Authorized
+
+```http
+POST https://auth.everlywell.com/api/v1/validate HTTP/1.1
+Content-Type: application/json; charset=utf-8
+```
+
+### Query Parameters
+
+Parameter | Required | Type | Description
+--------- | ------- | ----------- | -------
+token | true | int | The Issued Token
+
+> Response Definition
+
+```http
+HTTP/1.1 200 OK
+Content-Type: application/json
+```
+
+```json
+{
+    "id": 1,
+    "name": "User Name"
+}
+```
