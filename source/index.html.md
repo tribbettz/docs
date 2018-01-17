@@ -224,32 +224,3 @@ Content-Type: application/json
     "token": "encryptedPayload"
 }
 ```
-
-## Validate Token
-
-Validate Token is Authorized
-
-```http
-POST https://auth.everlywell.com/api/v1/validate HTTP/1.1
-Content-Type: application/json; charset=utf-8
-```
-
-### Query Parameters
-
-Parameter | Required | Type | Description
---------- | ------- | ----------- | -------
-token | true | int | The Issued Token
-
-> Response Definition
-
-```http
-HTTP/1.1 200 OK
-Content-Type: application/json
-```
-
-```json
-{
-    "id": 1,
-    "name": "User Name"
-}
-```
