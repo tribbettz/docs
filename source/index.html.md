@@ -209,7 +209,7 @@ Authorize and Issue Token
 ```http
 GET https://auth.everlywell.com/api/v1/token HTTP/1.1
 Content-Type: application/json; charset=utf-8
-Authorization: <YOUR_AUTH_HERE>
+Authorization: Bearer <BASIC_AUTH_HERE>
 ```
 
 > Response Definition
