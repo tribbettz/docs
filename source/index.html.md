@@ -22,7 +22,7 @@ Create an Order.
 ```http
 POST https://secure.everlywell.com/aapi/v2/orders/ HTTP/1.1
 Content-Type: application/json; charset=utf-8
-Authorization: <YOUR_AUTH_HERE>
+Authorization: Bearer <JWT_TOKEN_HERE>
 ```
 
 ```json
@@ -62,7 +62,7 @@ Get an Order by ID.
 ```http
 GET https://secure.everlywell.com/aapi/v2/orders/<order_id> HTTP/1.1
 Content-Type: application/json; charset=utf-8
-Authorization: <YOUR_AUTH_HERE>
+Authorization: Bearer <JWT_TOKEN_HERE>
 ```
 
 ### Query Parameters
@@ -99,7 +99,7 @@ Create an Kit Registration for a User.
 ```http
 POST https://secure.everlywell.com/aapi/v1/kits/<invoice_id>/registration HTTP/1.1
 Content-Type: application/json; charset=utf-8
-Authorization: <YOUR_AUTH_HERE>
+Authorization: Bearer <JWT_TOKEN_HERE>
 ```
 
 ```json
@@ -176,7 +176,7 @@ Get single Result by ID.
 ```http
 GET https://secure.everlywell.com/aapi/v1/results/<result_id> HTTP/1.1
 Content-Type: application/json; charset=utf-8
-Authorization: <YOUR_AUTH_HERE>
+Authorization: Bearer <JWT_TOKEN_HERE>
 ```
 
 ### Query Parameters
@@ -209,7 +209,7 @@ Authorize and Issue Token
 ```http
 GET https://auth.everlywell.com/api/v1/token HTTP/1.1
 Content-Type: application/json; charset=utf-8
-Authorization: Bearer <BASIC_AUTH_HERE>
+Authorization: Basic <BASIC_AUTH_HERE>
 ```
 
 > Response Definition
