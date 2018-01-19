@@ -54,15 +54,15 @@ Content-Type: application/json
 Create an Order.
 
 ### Production URL
-`POST https://secure.everlywell.com/aapi/enterprise/v1/orders`
+`POST https://secure.everlywell.com/ent/v1/orders`
 
 ### Staging URL
-`POST https://secure-staging.everlywell.com/aapi/enterprise/v1/orders`
+`POST https://secure-staging.everlywell.com/ent/v1/orders`
 
 > Request Definition
 
 ```http
-POST https://secure.everlywell.com/aapi/enterprise/v1/orders/ HTTP/1.1
+POST https://secure.everlywell.com/ent/v1/orders/ HTTP/1.1
 Content-Type: application/json; charset=utf-8
 Authorization: Bearer <JWT_TOKEN_HERE>
 ```
@@ -136,15 +136,15 @@ Content-Type: application/json
 Create an Kit Registration for a User.
 
 ### Production URL
-`POST https://secure.everlywell.com/aapi/enterprise/v1/kits/registration`
+`POST https://secure.everlywell.com/ent/v1/kits/registration`
 
 ### Staging URL
-`POST https://secure-staging.everlywell.com/aapi/enterprise/v1/kits/registration`
+`POST https://secure-staging.everlywell.com/ent/v1/kits/registration`
 
 > Request Definition
 
 ```http
-POST https://secure.everlywell.com/aapi/v1/kits/registration HTTP/1.1
+POST https://secure.everlywell.com/ent/v1/kits/registration HTTP/1.1
 Content-Type: application/json; charset=utf-8
 Authorization: Bearer <JWT_TOKEN_HERE>
 ```
@@ -214,15 +214,15 @@ Content-Type: application/json
 Get single Result by Kit ID for a registered Kit
 
 ### Production URL
-`GET https://secure.everlywell.com/aapi/enterprise/v1/kits/<kit_id>`
+`GET https://secure.everlywell.com/ent/v1/kits/<kit_id>`
 
 ### Staging URL
-`GET https://secure.everlywell.com/aapi/enterprise/v1/kits/<kit_id>`
+`GET https://secure.everlywell.com/ent/v1/kits/<kit_id>`
 
 > Request Definition
 
 ```http
-GET https://secure.everlywell.com/aapi/enterprise/v1/kits/<kit_id> HTTP/1.1
+GET https://secure.everlywell.com/ent/v1/kits/<kit_id> HTTP/1.1
 Content-Type: application/json; charset=utf-8
 Authorization: Bearer <JWT_TOKEN_HERE>
 ```
