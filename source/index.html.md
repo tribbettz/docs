@@ -11,66 +11,23 @@ search: true
 
 Documentation for EverlyWell's Enterprise APIs.
 
-# Orders API
+# Auth API
 
-## Create Order
+## Issue Token
 
-Create an Order.
+Authorize and Issue Token
 
-> Request Definition
+### Production URL
+`GET https://auth.everlywell.com/api/v1/token`
+
+### Staging URL
+`GET https://auth-staging.everlywell.com/api/v1/token`
 
 ```http
-POST https://secure.everlywell.com/aapi/v2/orders/ HTTP/1.1
+GET https://auth.everlywell.com/api/v1/token HTTP/1.1
 Content-Type: application/json; charset=utf-8
-Authorization: Bearer <JWT_TOKEN_HERE>
+Authorization: Basic <BASIC_AUTH_HERE>
 ```
-
-```json
-{
-    "amount": 199.00
-}
-```
-
-### Query Parameters
-
-Parameter | Required | Type | Description
---------- | ------- | ----------- | -------
-amount | true | Double | Total order price
-
-> Response Definition
-
-```http
-HTTP/1.1 201 Created
-Content-Type: application/json
-```
-
-```json
-{
-    "id": 1,
-    "amount": 199.00
-}
-```
-
-
-
-## Get Order
-
-Get an Order by ID.
-
-> Request Definition
-
-```http
-GET https://secure.everlywell.com/aapi/v2/orders/<order_id> HTTP/1.1
-Content-Type: application/json; charset=utf-8
-Authorization: Bearer <JWT_TOKEN_HERE>
-```
-
-### Query Parameters
-
-Parameter | Required | Type | Description
---------- | ------- | ----------- | -------
-id | true | int | Unique identifier for the Order
-
 
 > Response Definition
 
@@ -81,11 +38,95 @@ Content-Type: application/json
 
 ```json
 {
-    "id": 1,
-    "state": "processing"
+  "token": "<JWT_TOKEN>"
 }
 ```
 
+###All Requests will be made in two parts
+
+1. Acquire an access token from the Auth API
+2. Use the access token as a bearer token for all other APIs
+
+# Orders API
+
+## Create Order
+
+Create an Order.
+
+### Production URL
+`POST https://secure.everlywell.com/ent/v1/orders`
+
+### Staging URL
+`POST https://secure-staging.everlywell.com/ent/v1/orders`
+
+> Request Definition
+
+```http
+POST https://secure.everlywell.com/ent/v1/orders/ HTTP/1.1
+Content-Type: application/json; charset=utf-8
+Authorization: Bearer <JWT_TOKEN_HERE>
+```
+
+```json
+{
+  "email": "example@everlywell.com",
+  "line_items": [
+    {
+      "product_id": 1,
+      "quantity": 1
+    }
+  ],
+  "ship_address": {
+    "firstname": "Joe",
+    "lastname":  "Example",
+    "address1":  "800 W Cesar Chavez St",
+    "address2":  "B101",
+    "city":      "Austin",
+    "state":     "TX",
+    "zipcode":   78701,
+    "country":   "US",
+    "phone":     5125551234
+  }
+}
+```
+
+### Query Parameters
+
+Parameter | Required | Type | Description
+--------- | ------- | ----------- | -------
+email | true | string | User Email
+line_items | true | array | Array of Line Items
+product_id | true | int | Product ID for line item
+quantity | true | int | Quantity for line item
+ship_address | true | object | Address for shipment
+firstname | true | string | First Name of recipient
+lastname | true | string | Last Name of recipient
+address1 | true | string | Address line 1
+address2 | false | string | Address line 2
+city | true | string | City
+zipcode | true | int | Zipcode Format: 11111
+phone | false | int | Phone number Format: 5125551234
+state | true | string | State Format: TX
+country | true | string | Country Format: US
+
+> Response Definition
+
+```http
+HTTP/1.1 201 Created
+Content-Type: application/json
+```
+
+```json
+{
+  "id": 52,
+  "number": "RB6E2BEA57E27456BA53D3A2D63125A5",
+  "amount": "99.0",
+  "email": "vivek@everlywll.com",
+  "state": "complete",
+  "payment_state": "paid",
+  "item_count": 1
+}
+```
 
 
 # Kits API
@@ -94,33 +135,38 @@ Content-Type: application/json
 
 Create an Kit Registration for a User.
 
+### Production URL
+`POST https://secure.everlywell.com/ent/v1/kits/registration`
+
+### Staging URL
+`POST https://secure-staging.everlywell.com/ent/v1/kits/registration`
+
 > Request Definition
 
 ```http
-POST https://secure.everlywell.com/aapi/v1/kits/<invoice_id>/registration HTTP/1.1
+POST https://secure.everlywell.com/ent/v1/kits/registration HTTP/1.1
 Content-Type: application/json; charset=utf-8
 Authorization: Bearer <JWT_TOKEN_HERE>
 ```
 
 ```json
 {
-    "user": {
-        "email": "test@email.com",
-        "first_name": "Test",
-        "last_name": "Testerson",
-        "dob": 1476551410009,
-        "phone_number": 5125557485,
-        "gender": "male"
-    },
-    "addresses": [
-        {
-           "street1": "123 Test str",
-           "street2": "",
-           "city": "Austin",
-           "state": "TX",
-           "zipcode": 78701
-        }
-    ]
+  "kit_id": "ABCDEF4567",
+  "user": {
+    "email": "test@email.com",
+    "first_name": "Test",
+    "last_name": "Testerson",
+    "dob": 1476551410009,
+    "phone_number": 5125557485,
+    "gender": "male"
+  },
+  "address": {
+    "address1": "123 Test str",
+    "address2": "",
+    "city": "Austin",
+    "state": "TX",
+    "zipcode": 78701
+  }
 }
 ```
 
@@ -133,7 +179,7 @@ first_name | true | string | First name of the User associated with the Kit
 last_name | true | string | Last name of the User associated with the Kit
 dob | true | int | Date of Birth in seconds for the User associated with the Kit
 phone_number | true | int | Email associated with the Kit
-gender | true | string | Gender of the User associated with the Kit
+gender | true | string | Gender of the User associated with the Kit Format: "male" or "female"
 
 ### Address
 
@@ -158,23 +204,25 @@ Content-Type: application/json
 {
     "id": 1,
     "state": "registred",
-    "kit_id": "1a2b3c4d5e",
-    "user_id": 1
+    "kit_id": "ABCDEF4567"
 }
 ```
 
 
-# Results API
-
 ## Get Result
 
-Get single Result by ID.
+Get single Result by Kit ID for a registered Kit
 
+### Production URL
+`GET https://secure.everlywell.com/ent/v1/kits/<kit_id>`
+
+### Staging URL
+`GET https://secure.everlywell.com/ent/v1/kits/<kit_id>`
 
 > Request Definition
 
 ```http
-GET https://secure.everlywell.com/aapi/v1/results/<result_id> HTTP/1.1
+GET https://secure.everlywell.com/ent/v1/kits/<kit_id> HTTP/1.1
 Content-Type: application/json; charset=utf-8
 Authorization: Bearer <JWT_TOKEN_HERE>
 ```
@@ -183,7 +231,7 @@ Authorization: Bearer <JWT_TOKEN_HERE>
 
 Parameter | Required | Type | Description
 --------- | ------- | ----------- | -------
-id | true | int | The result's ID
+kit_id | true | int | The result's ID
 
 
 > Response Definition
@@ -195,32 +243,28 @@ Content-Type: application/json
 
 ```json
 {
-    "id": 1,
-    "state": "ready",
+  "id": 1,
+  "state": "ready",
+  "name": "Breast Milk DHA",
+  "markers": [
+    {
+      "id": 231,
+      "units": "%",
+      "descriptors": [
+        "Low",
+        "Normal"
+        ],
+      "boundaries": [
+        0.32
+      ]
+    }
+  ],
+  "marker_results": [
+    {
+      "marker_id": 231,
+      "value": 0.21,
+    }
+  ]
 }
 ```
 
-# Auth API
-
-## Issue Token
-
-Authorize and Issue Token
-
-```http
-GET https://auth.everlywell.com/api/v1/token HTTP/1.1
-Content-Type: application/json; charset=utf-8
-Authorization: Basic <BASIC_AUTH_HERE>
-```
-
-> Response Definition
-
-```http
-HTTP/1.1 200 OK
-Content-Type: application/json
-```
-
-```json
-{
-    "token": "encryptedPayload"
-}
-```
