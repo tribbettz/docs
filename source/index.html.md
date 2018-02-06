@@ -47,6 +47,78 @@ Content-Type: application/json
 1. Acquire an access token from the Auth API
 2. Use the access token as a bearer token for all other APIs
 
+
+# Users API
+
+## Create User
+
+Create a User.
+
+### Production URL
+`POST https://secure.everlywell.com/ent/v1/users`
+
+### Staging URL
+`POST https://secure-staging.everlywell.com/ent/v1/users`
+
+> Request Definition
+
+```http
+POST https://secure.everlywell.com/ent/v1/users/ HTTP/1.1
+Content-Type: application/json; charset=utf-8
+Authorization: Bearer <JWT_TOKEN_HERE>
+```
+
+```json
+{
+  "email": "example@everlywell.com",
+  "firstname": "Joe",
+  "lastname":  "Example",
+  "dob": "2018-01-01",
+  "gender": "male",
+  "phone_number": "512-555-4564",
+  "address": {
+    "address1":  "800 W Cesar Chavez St",
+    "address2":  "B101",
+    "city":      "Austin",
+    "state":     "TX",
+    "zipcode":   78701,
+    "country":   "US"
+  }
+}
+```
+
+### Query Parameters
+
+Parameter | Required | Type | Description
+--------- | ------- | ----------- | -------
+email | true | string | User Email
+firstname | true | string | First Name of the customer taking the test
+lastname | true | string | Last Name of the customer taking the test
+dob | true | string | First Name of the customer taking the test
+gender | true | string | Last Name of the customer taking the test
+phone | false | int | Phone number Format: 5125551234
+address | true | object | Address of the customer taking the test
+address1 | true | string | Address line 1
+address2 | false | string | Address line 2
+city | true | string | City
+zipcode | true | int | Zipcode Format: 11111
+state | true | string | State Format: TX
+country | true | string | Country Format: US
+
+> Response Definition
+
+```http
+HTTP/1.1 201 Created
+Content-Type: application/json
+```
+
+```json
+{
+  "id": "52354"
+}
+```
+
+
 # Orders API
 
 ## Create Order
@@ -86,7 +158,9 @@ Authorization: Bearer <JWT_TOKEN_HERE>
     "zipcode":   78701,
     "country":   "US",
     "phone":     5125551234
-  }
+  },
+  "auto_register": false,
+  "user_id": 1
 }
 ```
 
@@ -108,6 +182,8 @@ zipcode | true | int | Zipcode Format: 11111
 phone | false | int | Phone number Format: 5125551234
 state | true | string | State Format: TX
 country | true | string | Country Format: US
+auto_register | false | boolean | true will auto register the kit to the specified user_id
+user_id | false | int | Optionally provide a user's id to associate the order
 
 > Response Definition
 
@@ -118,13 +194,9 @@ Content-Type: application/json
 
 ```json
 {
-  "id": 52,
   "number": "RB6E2BEA57E27456BA53D3A2D63125A5",
   "amount": "99.0",
-  "email": "vivek@everlywll.com",
-  "state": "complete",
-  "payment_state": "paid",
-  "item_count": 1
+  "email": "customer@email.com"
 }
 ```
 
@@ -268,3 +340,51 @@ Content-Type: application/json
 }
 ```
 
+
+## List Kits (TEMPORARY ENDPOINT UNTIL EVENT WEBHOOKS)
+
+Get a list of Kits matching the filter query params. 
+NOTE: Kits will be paginated but currently all will be returned.
+
+### Production URL
+`GET https://secure.everlywell.com/ent/v1/kits?<param1>=<value1>`
+
+### Staging URL
+`GET https://secure.everlywell.com/ent/v1/kits?<param1>=<value1>`
+
+> Request Definition
+
+```http
+GET https://secure.everlywell.com/ent/v1/kits?<param1>=<value1> HTTP/1.1
+Content-Type: application/json; charset=utf-8
+Authorization: Bearer <JWT_TOKEN_HERE>
+```
+
+### Query Parameters
+
+Parameter | Required | Type | Description
+--------- | ------- | ----------- | -------
+status | true | string | The kits status to filter results. Allowed values: ['registered', 'processed', 'canceled']
+
+
+> Response Definition
+
+```http
+HTTP/1.1 200 OK
+Content-Type: application/json
+```
+
+```json
+[
+    {
+        "kit_id": "ABCDEF4567",
+        "order_number": "RB6E2BEA57E27456BA53D3A2D63125A5",
+        "status": "registered"
+    },
+    {
+        "kit_id": "ABCDEF8910",
+        "order_number": "RC1223G123EA57E271231412312412YY",
+        "status": "registered"
+    }
+]
+```
