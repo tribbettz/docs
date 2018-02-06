@@ -341,10 +341,10 @@ Content-Type: application/json
 ```
 
 
-## List Kits (TEMPORARY ENDPOINT UNTIL EVENT WEBHOOKS)
+## List Kits 
 
 Get a list of Kits matching the filter query params. 
-NOTE: Kits will be paginated but currently all will be returned.
+(TEMPORARY ENDPOINT UNTIL EVENT WEBHOOKS)
 
 ### Production URL
 `GET https://secure.everlywell.com/ent/v1/kits?<param1>=<value1>`
