@@ -94,8 +94,8 @@ Parameter | Required | Type | Description
 email | true | string | User Email
 firstname | true | string | First Name of the customer taking the test
 lastname | true | string | Last Name of the customer taking the test
-dob | true | string | First Name of the customer taking the test
-gender | true | string | Last Name of the customer taking the test
+dob | true | string | Date of Birth in seconds for the User
+gender | true | string | Gender of the User, Format: "male" or "female"
 phone | false | int | Phone number Format: 5125551234
 address | true | object | Address of the customer taking the test
 address1 | true | string | Address line 1
